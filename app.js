@@ -14,7 +14,7 @@ const client = mqtt.connect('mqtt://localhost');
 
 // Basic GET route
 app.get('/', (req, res) => {
-  res.send('Smart Home MVP Backend');
+  res.send('Smart Home mvpp Backend');
 });
 
 // Start server
