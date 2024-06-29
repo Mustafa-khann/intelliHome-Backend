@@ -10,7 +10,7 @@ app.use(express.json());
 // Connect to Local MongoDB
 mongoose.connect('mongodb://localhost/ihomeBackend', { useNewUrlParser: true, useUnifiedTopology: true });
 
-// Connect to MQTT broker
+// Connect to MQTT broker ..
 const client = mqtt.connect('mqtt://localhost');
 
 // Basic GET route
