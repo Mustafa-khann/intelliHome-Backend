@@ -3,10 +3,11 @@ const mongoose = require('mongoose');
 const mqtt = require('mqtt');
 const jwt = require('jsonwebtoken');
 
+
 const app = express();
 app.use(express.json());
 
-// Connect to MongoDB
+// Connect to Local MongoDB
 mongoose.connect('mongodb://localhost/ihomeBackend', { useNewUrlParser: true, useUnifiedTopology: true });
 
 // Connect to MQTT broker
