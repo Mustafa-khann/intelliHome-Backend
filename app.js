@@ -12,7 +12,7 @@ mongoose.connect('mongodb://localhost/smart_home_mvp', { useNewUrlParser: true, 
 // Connect to MQTT broker
 const client = mqtt.connect('mqtt://localhost');
 
-// Basic route
+// Basic GET route
 app.get('/', (req, res) => {
   res.send('Smart Home MVP Backend');
 });
