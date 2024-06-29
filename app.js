@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost/ihome', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://localhost/ihomeBackend', { useNewUrlParser: true, useUnifiedTopology: true });
 
 // Connect to MQTT broker
 const client = mqtt.connect('mqtt://localhost');
