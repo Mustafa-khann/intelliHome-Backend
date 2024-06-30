@@ -1,23 +1,31 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const mqtt = require('mqtt');
-const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
 
+dotenv.config();
 
 const app = express();
+
+// Middleware
 app.use(express.json());
 
-// Connect to Local MongoDB
-mongoose.connect('mongodb://localhost/ihomeBackend', { useNewUrlParser: true, useUnifiedTopology: true });
+// Database connection
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log('Connected to MongoDB'))
+.catch(err => console.error('MongoDB connection error:', err));
 
-// Connect to MQTT broker ..
-const client = mqtt.connect('mqtt://localhost');
+// Routes (to be implemented)
+app.use('/api/users', require('./routes/users'));
+app.use('/api/devices', require('./routes/devices'));
 
-// Basic GET route
-app.get('/', (req, res) => {
-  res.send('Smart Home mvpp Backend');
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something went wrong!');
 });
 
-// Start server on port 3000
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
