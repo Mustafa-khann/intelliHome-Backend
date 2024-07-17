@@ -1,24 +1,34 @@
-require('dotenv').config();
-const express = require('express');
-const mongoose = require('mongoose');
-const authRoutes = require('./routes/auth');
-const deviceRoutes = require('./routes/devices');
-const scheduleRoutes = require('./routes/schedules');
-const { connectMQTT } = require('./utils/mqtt');
+require("dotenv").config();
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors"); // Add this line
+const authRoutes = require("./routes/auth");
+const housesRoutes = require("./routes/houses");
+const { connectMQTT } = require("./utils/mqtt");
 
 const app = express();
 
 app.use(express.json());
+app.use(cors()); // Add this line to enable CORS
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.error('MongoDB connection error:', err));
+mongoose
+  .connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((err) => console.error("MongoDB connection error:", err));
 
 // Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/devices', deviceRoutes);
-app.use('/api/schedules', scheduleRoutes);
+app.use("/auth", authRoutes);
+app.use("/houses", housesRoutes);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something broke!");
+});
 
 // Connect to MQTT broker
 connectMQTT();
